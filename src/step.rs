@@ -16,12 +16,14 @@
 use std::{fmt, hash, iter::Step};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+#[cfg_attr(feature = "nightly", rustc_layout_scalar_valid_range_end(0xFFFF_FF00))]
+#[cfg_attr(feature = "nightly", rustc_pass_by_value)]
 struct CustomIndex {
     private_use_as_methods_instead: u32,
 }
 
 // shave off 256 indices at the end to allow space for packing these indices into enums
-// TODO: check exactly what is this packing for
+// IMPORTANT: used in #![feature(rustc_layout_scalar_valid_range_end)]
 const MAX: u32 = 0xFFFF_FF00;
 
 impl CustomIndex {
